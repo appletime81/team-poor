@@ -3,155 +3,732 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>我們團隊｜Official</title>
+<title>貧窮戰對｜Card Collection</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
+  
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  
   body {
-    background: #1a0533;
-    color: #fff;
-    font-family: 'Microsoft JhengHei', 'PingFang TC', 'Noto Sans TC', sans-serif;
+    background: #0a0e27;
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255, 107, 53, 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 40% 10%, rgba(0, 194, 255, 0.15) 0%, transparent 50%);
     min-height: 100vh;
-  }
-  .hero {
-    background: linear-gradient(135deg, #1a0533 0%, #2d0a5c 50%, #1a0533 100%);
-    padding: 70px 30px 80px;
-    text-align: center;
+    font-family: 'Noto Sans TC', sans-serif;
+    overflow-x: hidden;
     position: relative;
-    border-bottom: 4px solid #ff2d78;
   }
-  .hero-badge {
+
+  /* Animated stars background */
+  .stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  .container { 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
+    position: relative; 
+    z-index: 1;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    padding: 50px 20px 40px;
+    position: relative;
+  }
+
+  .logo-badge {
     display: inline-block;
-    background: #ff2d78;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+    color: #000;
+    font-size: 12px;
+    font-weight: 900;
     letter-spacing: 5px;
-    padding: 8px 22px;
-    border-radius: 30px;
-    margin-bottom: 32px;
+    padding: 8px 24px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+    box-shadow: 
+      0 0 20px rgba(255, 215, 0, 0.6),
+      inset 0 2px 4px rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    animation: shine 3s infinite;
   }
-  .hero-title {
-    font-size: 110px;
+
+  @keyframes shine {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), inset 0 2px 4px rgba(255,255,255,0.5); }
+    50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.9), inset 0 2px 4px rgba(255,255,255,0.8); }
+  }
+
+  .main-title {
+    font-size: clamp(48px, 12vw, 100px);
     font-weight: 900;
     line-height: 1;
-    color: #ffe135;
-    text-shadow: 5px 5px 0px #ff6b35;
-    margin-bottom: 18px;
+    background: linear-gradient(135deg, #ffd700 0%, #fff 50%, #ffd700 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    margin-bottom: 12px;
+    letter-spacing: 2px;
   }
-  .hero-sub {
-    font-size: 16px;
-    letter-spacing: 5px;
-    color: rgba(255,255,255,0.5);
+
+  .subtitle {
+    font-size: clamp(14px, 3vw, 18px);
+    color: #a0aec0;
+    letter-spacing: 4px;
+    font-weight: 700;
   }
-  .section-label {
+
+  .collection-title {
     text-align: center;
-    padding: 60px 20px 30px;
-    font-size: 48px;
+    font-size: clamp(28px, 6vw, 48px);
     font-weight: 900;
-    color: #ffe135;
-    letter-spacing: 8px;
+    color: #fff;
+    margin: 40px 0 50px;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    position: relative;
   }
-  .members {
+
+  .collection-title::before,
+  .collection-title::after {
+    content: '★';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ffd700;
+    font-size: 24px;
+  }
+  .collection-title::before { left: 10%; }
+  .collection-title::after { right: 10%; }
+
+  @media (max-width: 768px) {
+    .collection-title::before { left: 0; }
+    .collection-title::after { right: 0; }
+  }
+
+  /* ===== CARD GRID ===== */
+  .card-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    padding: 0 16px 60px;
-    max-width: 1000px;
-    margin: 0 auto;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 50px;
+    padding: 0 10px 80px;
+    perspective: 1000px;
   }
+
+  @media (max-width: 768px) {
+    .card-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+  }
+
+  /* ===== TRADING CARD STYLE ===== */
   .card {
+    aspect-ratio: 2.5/3.5;
     border-radius: 20px;
     position: relative;
-    padding: 36px 28px 28px;
-    min-height: 280px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    animation: cardReveal 0.8s both;
+  }
+
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.2s; }
+  .card:nth-child(3) { animation-delay: 0.3s; }
+  .card:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes cardReveal {
+    from { opacity: 0; transform: translateY(50px) rotateX(20deg); }
+    to { opacity: 1; transform: translateY(0) rotateX(0); }
+  }
+
+  .card:hover {
+    transform: translateY(-20px) rotateX(5deg);
+    filter: brightness(1.1);
+  }
+
+  /* Card inner wrapper */
+  .card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 20px;
+    padding: 6px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+    box-shadow: 
+      0 20px 60px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(255,255,255,0.2) inset,
+      0 0 30px rgba(255,215,0,0.3);
+  }
+
+  /* Holographic effect on hover */
+  .card:hover .card-inner {
+    background: linear-gradient(135deg, 
+      #ffd700 0%, 
+      #ff6ec7 25%, 
+      #7cf5ff 50%, 
+      #ffd700 75%, 
+      #ff6ec7 100%);
+    animation: holoShift 2s infinite;
+  }
+
+  @keyframes holoShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Card content area */
+  .card-content {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    border: 2px solid rgba(255,255,255,0.12);
+    position: relative;
+    overflow: hidden;
   }
-  .c1 { background: linear-gradient(145deg, #003566 0%, #001d3d 100%); }
-  .c2 { background: linear-gradient(145deg, #1b4332 0%, #081c15 100%); }
-  .c3 { background: linear-gradient(145deg, #7c2d00 0%, #431800 100%); }
-  .c4 { background: linear-gradient(145deg, #6a0572 0%, #350038 100%); }
-  .card-emoji { font-size: 80px; line-height: 1; margin-bottom: 16px; }
-  .card-num { font-size: 10px; font-weight: 700; letter-spacing: 4px; opacity: 0.45; margin-bottom: 4px; }
-  .card-name { font-size: 28px; font-weight: 900; margin-bottom: 8px; }
-  .c1 .card-name { color: #00c2ff; }
-  .c2 .card-name { color: #69db7c; }
-  .c3 .card-name { color: #ff9a3c; }
-  .c4 .card-name { color: #ff2d78; }
-  .card-quote { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.65; }
-  .sticker {
-    position: absolute; top: 18px; right: 18px;
-    font-size: 13px; font-weight: 900;
-    padding: 8px 14px; border-radius: 12px;
-    text-align: center; line-height: 1.4;
-    box-shadow: 2px 3px 10px rgba(0,0,0,0.5);
+
+  /* Attribute-specific gradients */
+  .card.c1 .card-content { 
+    background: linear-gradient(180deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
   }
-  .c1 .sticker { background: #00c2ff; color: #000; transform: rotate(-3deg); }
-  .c2 .sticker { background: #69db7c; color: #000; transform: rotate(4deg); }
-  .c3 .sticker { background: #ff9a3c; color: #000; transform: rotate(-5deg); }
-  .c4 .sticker { background: #ff2d78; color: #fff; transform: rotate(3deg); }
-  .stats {
-    background: #ffe135;
-    padding: 44px 20px;
+  .card.c2 .card-content { 
+    background: linear-gradient(180deg, #134e4a 0%, #14532d 50%, #1e3a1f 100%);
+  }
+  .card.c3 .card-content { 
+    background: linear-gradient(180deg, #7c2d12 0%, #9a3412 50%, #431407 100%);
+  }
+  .card.c4 .card-content { 
+    background: linear-gradient(180deg, #4a044e 0%, #7b2cbf 50%, #3c096c 100%);
+  }
+
+  /* Card header */
+  .card-header {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
   }
-  .stat { text-align: center; padding: 10px 44px; border-right: 2px solid rgba(0,0,0,0.15); }
-  .stat:last-child { border-right: none; }
-  .stat-num { display: block; font-size: 54px; font-weight: 900; color: #1a0533; line-height: 1; }
-  .stat-label { font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgba(0,0,0,0.5); margin-top: 4px; display: block; }
-  footer { background: #110022; text-align: center; padding: 30px 20px; font-size: 11px; color: rgba(255,255,255,0.25); letter-spacing: 2px; }
+
+  .card-name-area {
+    flex: 1;
+  }
+
+  .card-title {
+    font-size: 24px;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+
+  .card-id {
+    font-size: 10px;
+    font-weight: 700;
+    color: #ffd700;
+    letter-spacing: 2px;
+  }
+
+  /* Element badge */
+  .element-badge {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    border: 3px solid rgba(255,255,255,0.3);
+  }
+
+  .c1 .element-badge { background: linear-gradient(135deg, #00c2ff 0%, #0066cc 100%); }
+  .c2 .element-badge { background: linear-gradient(135deg, #69db7c 0%, #2d7f3f 100%); }
+  .c3 .element-badge { background: linear-gradient(135deg, #ff9a3c 0%, #cc5500 100%); }
+  .c4 .element-badge { background: linear-gradient(135deg, #ff2d78 0%, #cc0044 100%); }
+
+  /* Image area */
+  .card-image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    position: relative;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .card-image img {
+    width: 140px;
+    height: 140px;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
+    transition: transform 0.4s;
+  }
+
+  .card:hover .card-image img {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  /* Quote bubble */
+  .card-quote {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #fff;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    text-align: center;
+    position: relative;
+  }
+
+  .card-quote::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 36px;
+    color: rgba(255,215,0,0.5);
+    font-weight: 900;
+  }
+
+  /* Stats bar */
+  .card-stats {
+    display: flex;
+    gap: 8px;
+  }
+
+  .stat-item {
+    flex: 1;
+    background: rgba(0,0,0,0.4);
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .stat-label {
+    font-size: 9px;
+    color: #a0aec0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .stat-value {
+    font-size: 16px;
+    font-weight: 900;
+    color: #ffd700;
+    display: block;
+  }
+
+  /* Rarity stars */
+  .rarity {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 2px;
+  }
+
+  .rarity-star {
+    color: #ffd700;
+    font-size: 16px;
+    text-shadow: 0 0 8px rgba(255,215,0,0.8);
+    animation: starPulse 2s infinite;
+  }
+
+  .rarity-star:nth-child(2) { animation-delay: 0.3s; }
+  .rarity-star:nth-child(3) { animation-delay: 0.6s; }
+
+  @keyframes starPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+  }
+
+  /* ===== COLLECTION STATS ===== */
+  .collection-stats {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 4px solid #ffd700;
+    border-radius: 24px;
+    padding: 40px 30px;
+    margin: 60px 0;
+    box-shadow: 
+      0 20px 60px rgba(0,0,0,0.5),
+      inset 0 0 30px rgba(255,215,0,0.1);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 30px;
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  .stat-box {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255,215,0,0.05);
+    border-radius: 16px;
+    border: 2px solid rgba(255,215,0,0.3);
+    transition: all 0.3s;
+  }
+
+  .stat-box:hover {
+    background: rgba(255,215,0,0.1);
+    border-color: rgba(255,215,0,0.6);
+    transform: translateY(-4px);
+  }
+
+  .stat-number {
+    font-size: clamp(36px, 8vw, 48px);
+    font-weight: 900;
+    color: #ffd700;
+    line-height: 1;
+    margin-bottom: 8px;
+    display: block;
+    text-shadow: 0 0 20px rgba(255,215,0,0.5);
+  }
+
+  .stat-desc {
+    font-size: 12px;
+    color: #a0aec0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+  }
+
+  /* ===== SPONSOR SECTION ===== */
+  .sponsor-section {
+    background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,215,0,0.05) 100%);
+    border: 3px solid rgba(255,215,0,0.3);
+    border-radius: 24px;
+    padding: 40px 30px;
+    margin: 60px auto;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    max-width: 600px;
+  }
+
+  .sponsor-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: #ffd700;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(255,215,0,0.5);
+  }
+
+  .sponsor-logo {
+    display: inline-block;
+    background: rgba(255,255,255,0.05);
+    padding: 20px 40px;
+    border-radius: 16px;
+    border: 2px solid rgba(255,215,0,0.2);
+    transition: all 0.3s;
+  }
+
+  .sponsor-logo:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,215,0,0.4);
+    transform: scale(1.05);
+  }
+
+  .sponsor-name {
+    font-size: 24px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .sponsor-section {
+      margin: 40px 20px;
+      padding: 30px 20px;
+    }
+    .sponsor-title {
+      font-size: 16px;
+    }
+    .sponsor-name {
+      font-size: 20px;
+    }
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: #0a0e27;
+    border-top: 2px solid rgba(255,215,0,0.3);
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 11px;
+    color: #666;
+    letter-spacing: 2px;
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .header { padding: 30px 20px 30px; }
+    .collection-title { margin: 30px 0 40px; }
+    .card-grid { padding-bottom: 60px; }
+    .collection-stats { margin: 40px 0; padding: 30px 20px; }
+  }
 </style>
 </head>
 <body>
-<div class="hero">
-  <div class="hero-badge">✦ OFFICIAL WEBSITE ✦</div>
-  <div class="hero-title">我們團隊</div>
-  <div class="hero-sub">貧窮戰對 · 一個目標 · 無限廢話</div>
+
+<!-- Animated stars -->
+<div class="stars">
+  <div class="star" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+  <div class="star" style="top: 30%; left: 80%; animation-delay: 1s;"></div>
+  <div class="star" style="top: 60%; left: 30%; animation-delay: 2s;"></div>
+  <div class="star" style="top: 80%; left: 70%; animation-delay: 1.5s;"></div>
+  <div class="star" style="top: 20%; left: 50%; animation-delay: 0.5s;"></div>
+  <div class="star" style="top: 50%; left: 10%; animation-delay: 2.5s;"></div>
+  <div class="star" style="top: 40%; left: 90%; animation-delay: 3s;"></div>
+  <div class="star" style="top: 70%; left: 60%; animation-delay: 1.2s;"></div>
 </div>
 
-<div class="section-label">MEET THE CREW</div>
+<div class="container">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-badge">★ TEAM POOR ★</div>
+    <h1 class="main-title">貧窮戰對</h1>
+  </div>
 
-<div class="members">
-  <div class="card c1">
-    <div class="sticker">我漂亮嗎？</div>
-    <div class="card-emoji"><img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/805022921/android/sticker.png"></div>
-    <div class="card-num">MEMBER / 01</div>
-    <div class="card-name">藍眼仙人</div>
-    <div class="card-quote">戴口罩帥三倍，眼睛自帶濾鏡效果</div>
+
+
+  <!-- CARD GRID -->
+  <div class="card-grid">
+    
+    <!-- Card 1 -->
+    <div class="card c1">
+      <div class="card-inner">
+        <div class="card-content">
+          <div class="rarity">
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+          </div>
+          
+          <div class="card-header">
+            <div class="card-name-area">
+              <div class="card-title">藍眼仙人</div>
+              <div class="card-id">NO.001</div>
+            </div>
+            <div class="element-badge">💧</div>
+          </div>
+
+          <div class="card-image">
+            <img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/805022921/android/sticker.png" alt="藍眼仙人">
+          </div>
+
+          <div class="card-quote">我漂亮嗎？戴口罩帥三倍，眼睛自帶濾鏡效果</div>
+
+          <div class="card-stats">
+            <div class="stat-item">
+              <span class="stat-label">魅力</span>
+              <span class="stat-value">∞</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">自信</span>
+              <span class="stat-value">999</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">口罩</span>
+              <span class="stat-value">+3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card c2">
+      <div class="card-inner">
+        <div class="card-content">
+          <div class="rarity">
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+          </div>
+          
+          <div class="card-header">
+            <div class="card-name-area">
+              <div class="card-title">眼鏡哲學家</div>
+              <div class="card-id">NO.002</div>
+            </div>
+            <div class="element-badge">🍃</div>
+          </div>
+
+          <div class="card-image">
+            <img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/805022927/android/sticker.png" alt="眼鏡哲學家">
+          </div>
+
+          <div class="card-quote">爽嗎？用眼鏡看穿一切，包括你的人生選擇</div>
+
+          <div class="card-stats">
+            <div class="stat-item">
+              <span class="stat-label">智慧</span>
+              <span class="stat-value">888</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">洞察</span>
+              <span class="stat-value">777</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">嘴砲</span>
+              <span class="stat-value">999</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card c3">
+      <div class="card-inner">
+        <div class="card-content">
+          <div class="rarity">
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+          </div>
+          
+          <div class="card-header">
+            <div class="card-name-area">
+              <div class="card-title">站立反省哥</div>
+              <div class="card-id">NO.003</div>
+            </div>
+            <div class="element-badge">🔥</div>
+          </div>
+
+          <div class="card-image">
+            <img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/805022926/android/sticker.png" alt="站立反省哥">
+          </div>
+
+          <div class="card-quote">我站著反省。站著就是修行，不坐不躺不認錯</div>
+
+          <div class="card-stats">
+            <div class="stat-item">
+              <span class="stat-label">耐力</span>
+              <span class="stat-value">999</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">堅持</span>
+              <span class="stat-value">999</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">認錯</span>
+              <span class="stat-value">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card c4">
+      <div class="card-inner">
+        <div class="card-content">
+          <div class="rarity">
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+            <span class="rarity-star">★</span>
+          </div>
+          
+          <div class="card-header">
+            <div class="card-name-area">
+              <div class="card-title">開包神明</div>
+              <div class="card-id">NO.004</div>
+            </div>
+            <div class="element-badge">⚡</div>
+          </div>
+
+          <div class="card-image">
+            <img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/805022928/android/sticker.png" alt="開包神明">
+          </div>
+
+          <div class="card-quote">開包必中SR以上！手氣背後是天命，拆包就是我的使命</div>
+
+          <div class="card-stats">
+            <div class="stat-item">
+              <span class="stat-label">幸運</span>
+              <span class="stat-value">∞</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">SR率</span>
+              <span class="stat-value">100%</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">天命</span>
+              <span class="stat-value">MAX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <div class="card c2">
-    <div class="sticker">爽嗎？</div>
-    <div class="card-emoji"><img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/805022927/android/sticker.png"></div>
-    <div class="card-num">MEMBER / 02</div>
-    <div class="card-name">眼鏡哲學家</div>
-    <div class="card-quote">用眼鏡看穿一切，包括你的人生選擇</div>
-  </div>
-  <div class="card c3">
-    <div class="sticker">我站著<br>反省</div>
-    <div class="card-emoji"><img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/805022926/android/sticker.png"></div>
-    <div class="card-num">MEMBER / 03</div>
-    <div class="card-name">站立反省哥</div>
-    <div class="card-quote">站著就是修行，不坐不躺不認錯</div>
-  </div>
-  <div class="card c4">
-    <div class="sticker">開包必中<br>SR以上</div>
-    <div class="card-emoji"><img src="https://stickershop.line-scdn.net/stickershop/v1/sticker/805022928/android/sticker.png"></div>
-    <div class="card-num">MEMBER / 04</div>
-    <div class="card-name">開包神明</div>
-    <div class="card-quote">手氣背後是天命，拆包就是我的使命</div>
+
+  <!-- SPONSOR SECTION -->
+  <div class="sponsor-section">
+    <div class="sponsor-title">★ 特別感謝 ★</div>
+    <div class="sponsor-logo">
+      <img src="taipei-god.jpg" alt="贊助商" style="width: 120px; height: 120px; margin-bottom: 15px;">
+      <div class="sponsor-name">北市科贊助</div>
+    </div>
   </div>
 </div>
 
-<div class="stats">
-  <div class="stat"><span class="stat-num">∞</span><span class="stat-label">廢話量</span></div>
-  <div class="stat"><span class="stat-num">100%</span><span class="stat-label">SR機率（本人宣稱）</span></div>
-  <div class="stat"><span class="stat-num">0</span><span class="stat-label">次認錯</span></div>
-</div>
+<footer>© 2026 貧窮戰對 · All Rights Reserved · 非官方授權請勿轉載</footer>
 
-<footer>© 2025 我們團隊 · All Rights Reserved · 版權所有翻印不究（因為沒人想翻）</footer>
 </body>
 </html>
